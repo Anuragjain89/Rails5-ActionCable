@@ -198,47 +198,6 @@ Similar to ApplicationController for controllers.
 
 ---
 
-## SECURING AGAINST CROSS SITE WEBSOCKET HIJACKING
-
-The websockets supports cross domain requests.. which means it is also vulnerable to the security threats which result due to this behavior.
-> Rails does all the heavy lifting for you... and all you need to do is some configurations and you are good to go...
-
-> - Action cable only allows requests from origins configured by `action_cable.allowed_request_origins` in your config file.
-> - In case of development, this defaults to "http://localhost:3000"
-> - You can configure to turn off this check using `disable_request_forgery_protection` in your config file.
-
-```ruby
-Rails.application.config
-                 .action_cable
-                 .allowed_request_origins = ['http://rubyonrails.com', /http:\/\/ruby.*/]
-
-# You can disable this check by :
-# Rails.application.config.action_cable.disable_request_forgery_protection = true
-```
----
-
-### Message queues via redis... but I don't need them in development...
-
-Yes... the rails community also thought so.
-
-And if you see in the `config/cable.yml`, you'll see the adapter is async instead of redis.
-
-**which means ?**
-
-In your development mode, the message queue is maintained in memory and will be lost once the server is shut down (which is the desired behavior in most development scenarios).
-
->However, if you want, you may use a redis server as well by uncommenting the `redis` gem in the gem file and configuring `config/cable.yml`
-
-```yaml
-development:
-  adapter: redis
-  url: redis://localhost:6379/1
-```
-
-In production, Action Cable uses Redis by default to administer connections, channels, and sending/receiving messages over the WebSocket.
-
----
-
 ## All that came right out of the box.
 
 Let's go ahead and implement a common use case... the chat application.
@@ -444,6 +403,48 @@ Here's the animation showing the working of the demo app.
 > The server logs show the invocation of RoomChannel#speak followed by its persistence in db and broadcast along the channel.
 
 ![server-broadcast](images/server-broadcast.png)
+
+---
+
+## SECURING AGAINST CROSS SITE WEBSOCKET HIJACKING
+
+The websockets supports cross domain requests.. which means it is also vulnerable to the security threats which result due to this behavior.
+> Rails does all the heavy lifting for you... and all you need to do is some configurations and you are good to go...
+
+> - Action cable only allows requests from origins configured by `action_cable.allowed_request_origins` in your config file.
+> - In case of development, this defaults to "http://localhost:3000"
+> - You can configure to turn off this check using `disable_request_forgery_protection` in your config file.
+
+```ruby
+Rails.application.config
+                 .action_cable
+                 .allowed_request_origins = ['http://rubyonrails.com', /http:\/\/ruby.*/]
+
+# You can disable this check by :
+# Rails.application.config.action_cable.disable_request_forgery_protection = true
+```
+---
+
+### Message queues via redis... but I don't need them in development...
+
+Yes... the rails community also thought so.
+
+And if you see in the `config/cable.yml`, you'll see the adapter is async instead of redis.
+
+**which means ?**
+
+In your development mode, the message queue is maintained in memory and will be lost once the server is shut down (which is the desired behavior in most development scenarios).
+
+>However, if you want, you may use a redis server as well by uncommenting the `redis` gem in the gem file and configuring `config/cable.yml`
+
+```yaml
+development:
+  adapter: redis
+  url: redis://localhost:6379/1
+```
+
+In production, Action Cable uses Redis by default to administer connections, channels, and sending/receiving messages over the WebSocket.
+
 ---
 
 So that was a brief intro to the Action Cable which fills in the gap for realtime features in rails. Hope you found it interesting. Thanks for reading.
