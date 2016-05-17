@@ -409,6 +409,9 @@ Here's the animation showing the working of the demo app.
 ## SECURING AGAINST CROSS SITE WEBSOCKET HIJACKING
 
 The websockets supports cross domain requests.. which means it is also vulnerable to the security threats which result due to this behavior.
+
+[Here](https://www.christian-schneider.net/CrossSiteWebSocketHijacking.html)'s more info on this topic.
+
 > Rails does all the heavy lifting for you... and all you need to do is some configurations and you are good to go...
 
 > - Action cable only allows requests from origins configured by `action_cable.allowed_request_origins` in your config file.
