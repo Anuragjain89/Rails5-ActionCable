@@ -215,6 +215,7 @@ One ruby file and one js file.
 >This generator is similar to the familiar controller generator. You specify the name of the channel (room) and one or more public methods which can be invoked as Remote Procedures ( we'll come it in a while )
 
 ![channel-generator](images/channel-generator.png)
+
 Let's see what we have in each of these files for this particular example..
 
 ### CLIENT SIDE JS CODE
